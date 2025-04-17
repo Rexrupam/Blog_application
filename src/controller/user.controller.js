@@ -1,5 +1,10 @@
 import { app } from "../middleware/auth.middleware.js"
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, getAuth, sendEmailVerification, deleteUser } from "firebase/auth"
+import { signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      getAuth, 
+      sendEmailVerification,
+       deleteUser,
+    sendPasswordResetEmail } from "firebase/auth"
 import User from "../models/user.model.js"
 
 const auth = getAuth(app)
@@ -98,6 +103,16 @@ export const logout = async (req, res) => {
      } catch (error) {
         return res.status(500).send('Internal server error')
      }
+}
+
+export const resetPassword=async(req,res)=>{
+    const email = req.email
+    try {
+        await sendPasswordResetEmail(auth, email)
+        return res.status(200).json({message: "Password reset email has been sent to your email"})
+    } catch (error) {
+        return res.status(500).send("Something went wrong")
+    }
 }
 
 export const healthCheck = async (req, res) => {
