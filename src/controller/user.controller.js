@@ -81,7 +81,7 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-     const email = req.email
+     const { email } = req.body
      if(!email){
         return res.status(401).send('Unauthorised access')
      }

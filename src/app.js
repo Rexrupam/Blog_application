@@ -19,4 +19,5 @@ app.use('/api/v1',userRouter)
 // /api/v1/signup  - Register a new user
 // /api/v1/login -  Login a registered user
 // /api/v1/logout - Logged out a logged in user
+// /api/v1/healthCheck - Health Check route
 export { app };
