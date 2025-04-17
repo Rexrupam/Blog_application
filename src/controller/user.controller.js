@@ -85,15 +85,19 @@ export const logout = async (req, res) => {
      if(!email){
         return res.status(401).send('Unauthorised access')
      }
-     const logoutUser = await User.findOneAndUpdate(
-        {email: req.email || email },
-        {$unset:{refreshToken: 1}},
-        {new: true}
-     )
-     if(!logoutUser){
-        return res.status(500).json({message: "User logout faled"})
+     try {
+        const logoutUser = await User.findOneAndUpdate(
+           {email: req.email || email },
+           {$unset:{refreshToken: 1}},
+           {new: true}
+        )
+        if(!logoutUser){
+           return res.status(500).json({message: "User logout failed"})
+        }
+        return res.status(200).json({message: "User logged out successfully", logoutUser})
+     } catch (error) {
+        return res.status(500).send('Internal server error')
      }
-     return res.status(200).json({message: "User logged out successfully", logoutUser})
 }
 
 export const healthCheck = async (req, res) => {
