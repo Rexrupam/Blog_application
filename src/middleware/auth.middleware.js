@@ -24,11 +24,9 @@ const app = initializeApp(firebaseConfig)
 
 const verifyIdToken = async(req,res,next)=>{
      const token = req.cookies?.idToken
-      
-    try {
-       if(!token){
-        return res.status(401).send('Unauthorised access')
-       }
+     if(!token){
+      return res.status(401).send('Unauthorised access')
+     }
        const decodedToken = await admin.auth().verifyIdToken(token)
   
        if(!decodedToken){
@@ -36,9 +34,6 @@ const verifyIdToken = async(req,res,next)=>{
        }
       req.email = decodedToken.email
       next()
-    } catch (error) {
-       console.log("Something went wrong",error)
-    }
 }
 
 export {app, verifyIdToken}
