@@ -9,7 +9,7 @@ export const signup = async (req, res) => {
     if (!email || !password) {
         return res.status(400).send("Email and password are required")
     }
-    const user=await User.findOne({email})
+    let user = await User.findOne({email})
     if(user){
         return res.status(409).json({message: "User already registered"})
     }
@@ -42,6 +42,7 @@ export const signup = async (req, res) => {
         }, checkInterval);
 
     } catch (error) {
+        console.log("hello from catch")
         return res.status(500).send("Registration failed", error)
     }
 }
@@ -80,7 +81,19 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-
+     const email = req.email
+     if(!email){
+        return res.status(401).send('Unauthorised access')
+     }
+     const logoutUser = await User.findOneAndUpdate(
+        {email: req.email || email },
+        {$unset:{refreshToken: 1}},
+        {new: true}
+     )
+     if(!logoutUser){
+        return res.status(500).json({message: "User logout faled"})
+     }
+     return res.status(200).json({message: "User logged out successfully", logoutUser})
 }
 
 export const healthCheck = async (req, res) => {

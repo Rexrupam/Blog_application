@@ -1,5 +1,5 @@
 import express from "express"
-import HealthCheckRouter from "./router/user.router.js"
+import userRouter from "./router/user.router.js"
 import bodyParser from "body-parser"
 import cors from "cors"
 import cookieParser from "cookie-parser"
@@ -14,5 +14,9 @@ app.use(cors({
     credentials: true
 }))
 
-app.use('/',HealthCheckRouter)
+
+app.use('/api/v1',userRouter)
+// /api/v1/signup  - Register a new user
+// /api/v1/login -  Login a registered user
+// /api/v1/logout - Logged out a logged in user
 export { app };

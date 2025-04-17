@@ -7,7 +7,7 @@ const router = Router();
 router.route('/signup').post(signup)
 router.route('/healthCheck').get(healthCheck)
 router.route('/login').post(login)
-router.route('/logout').post(verifyIdToken, logout)
+router.route('/logout').post(verifyIdToken,logout)
 
 export default router;
 
